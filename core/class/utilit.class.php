@@ -50,7 +50,7 @@ class rbDatabase{
 	* Par défaut, utilise la base de données spécifiée dans le fichier config.php
 	* @param mysqli_connect	  $dblink 	la connexion à utiliser
 	* @param string 		  $dbname	la base de données à utiliser
-	* @return boolean 	 				true|false si la selection est réussie
+	* @return boolean 					true|false si la selection est réussie
 	*/
 	private function useDatabase($dblink, $dbname){
 		return mysqli_select_db($dblink, $dbname);
