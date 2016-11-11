@@ -8,7 +8,7 @@ class rbDatabase{
 	private $dbname;
 
 	public function __construct(){
-		include dirname(__FILE__).'/config.php';
+		include '././config.php';
 		$this->host = $rb_DBHost;
 		$this->login = $rb_DBLogin;
 		$this->password = $rb_DBPassword;
