@@ -223,6 +223,70 @@ class htmlElement{
 		return $this;
 	}
 	
+	public function getAccessKey(){
+		return $this->accesskey;
+	}
+	
+	public function getClass(){
+		return $this->class;
+	}
+	
+	public function getContentEditable(){
+		return $this->contenteditable;
+	}
+	
+	public function getContextMenu(){
+		return $this->contextmenu;
+	}
+	
+	public function getData(){
+		return $this->data;
+	}
+	
+	public function getDir(){
+		return $this->dir;
+	}
+	
+	public function getDraggable(){
+		return $this->draggable;
+	}
+	
+	public function getDropzone(){
+		return $this->dropzone;
+	}
+	
+	public function getHidden(){
+		return $this->hidden;
+	}
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function getLang(){
+		return $this->lang;
+	}
+	
+	public function getSpellcheck(){
+		return $this->spellcheck;
+	}
+	
+	public function getStyle(){
+		return $this->style;
+	}
+	
+	public function getTabindex(){
+		return $this->tabindex;
+	}
+	
+	public function getTitle(){
+		return $this->title;
+	}
+	
+	public function getTranslate(){
+		return $this->translate;
+	}
+	
 	
 }
 
