@@ -16,11 +16,11 @@ class rbDatabase{
 	}
 
 	/**
-	 * Retourne un objet mysqli_connect si la connexion est établie, false sinon.
-	 * Par défaut, utilise les paramètres de connexion du fichier config.php
-	 * @param	string	$host		l'adresse du serveur de données
-	 * @param	string 	$login		le login à utiliser pour se connecter
-	 * @param	string 	$password	le mot de passe associé au login
+	 * Retourne un objet mysqli_connect si la connexion est ï¿½tablie, false sinon.
+	 * Par dï¿½faut, utilise les paramï¿½tres de connexion du fichier config.php
+	 * @param	string	$host		l'adresse du serveur de donnï¿½es
+	 * @param	string 	$login		le login ï¿½ utiliser pour se connecter
+	 * @param	string 	$password	le mot de passe associï¿½ au login
 	 * @return 	boolean|mysqli
 	 */
 	private function connect($host = NULL, $login = NULL, $password = NULL){
@@ -30,46 +30,46 @@ class rbDatabase{
 		
 		$connect = new mysqli($host, $login, $password);
 		if ($connect->connect_errno) {
-		    echo 'Impossible d\'établir la connexion au serveur de données';
+		    echo 'Impossible d\'ï¿½tablir la connexion au serveur de donnï¿½es';
 		    return false;
 		}
 		return $connect;
 	}
 
 	/**
-	* Ferme la connexion à la base de données
-	* @param mysqli_connect    $bdlink 	la connexion à fermer
-	* @return boolean 					true|false si la connexion est fermée
+	* Ferme la connexion ï¿½ la base de donnï¿½es
+	* @param mysqli_connect    $bdlink 	la connexion ï¿½ fermer
+	* @return boolean 					true|false si la connexion est fermï¿½e
 	*/
 	private function disconnect($dblink){
 		return $dblink->close();
 	}
 
 	/**
-	* Selectionne la base de donnée à utiliser sur la connexion pour effectuer les requetes.
-	* Par défaut, utilise la base de données spécifiée dans le fichier config.php
-	* @param mysqli_connect	  $dblink 	la connexion à utiliser
-	* @param string 		  $dbname	la base de données à utiliser
-	* @return boolean 					true|false si la selection est réussie
+	* Selectionne la base de donnï¿½e ï¿½ utiliser sur la connexion pour effectuer les requetes.
+	* Par dï¿½faut, utilise la base de donnï¿½es spï¿½cifiï¿½e dans le fichier config.php
+	* @param mysqli_connect	  $dblink 	la connexion ï¿½ utiliser
+	* @param string 		  $dbname	la base de donnï¿½es ï¿½ utiliser
+	* @return boolean 					true|false si la selection est rï¿½ussie
 	*/
 	private function useDatabase($dblink, $dbname){
 		return mysqli_select_db($dblink, $dbname);
 	}
 
 	/**
-	 * Execute le fichier sql passé en paramètre sur la connexion
-	 * @param mysqli_connect $dblink	la connexion à utiliser
-	 * @param string		 $filename	le fichier à executer
-	 * @return boolean					true|false si l'execution est réussie
+	 * Execute le fichier sql passÃ© en paramÃ¨tre sur la connexion
+	 * @param mysqli_connect $dblink	la connexion Ã  utiliser
+	 * @param string		 $filename	le fichier Ã  executer
+	 * @return boolean					true|false si l'execution est rÃ©ussie
 	 */
 	private function execute($dblink, $filename){
 		$extension = pathinfo($filename);
-		// On vérifie que le fichier est bien un fichier sql
+		// On vÃ©rifie que le fichier est bien un fichier sql
 		if ($extension['extension'] === 'sql'){
 			$open = fopen($filename, 'r');
 			$queries = fread($open, filesize($filename));
 			fclose($open);
-			//On se connecte à la base de données
+			//On se connecte Ã  la base de donnÃ©es
 			if ($dblink = $this->connect()){
 				//On execute les requetes
 				if (mysqli_multi_query($dblink, $queries)) {
@@ -92,6 +92,10 @@ class rbDatabase{
 		}
 	}
 	
+	/**
+	 * Installe la base de donnÃ©es principale de RBCMS
+	 * @return boolean	true|false
+	 */
 	public function installMainDatabase(){
 		$dblink = $this->connect();
 		if ($dblink){
@@ -99,15 +103,29 @@ class rbDatabase{
 				return $this->execute($dblink, 'install.sql');
 			}
 			else{
-				echo "Erreur lors de la selection de la base de données";
+				echo "Erreur lors de la selection de la base de donn&eacute;es";
 				return false;
 			}
 		}
 		else{
-			echo "Erreur lors de la connexion au serveur de données";
+			echo "Erreur lors de la connexion au serveur de donn&eacute;es";
 			return false;
 		}
-		
+	}
+	
+	/**
+	 * VÃ©rifie si la base de donnÃ©es principale de RBCMS est dÃ©jÃ  installÃ©e
+	 * @return boolean	true|false
+	 */
+	public function isMainDatabaseInstalled(){
+		$dblink = $this->connect();
+		if($dblink){
+			$dbRMCMS = mysqli_select_db($dblink, 'rbCustomCMS');
+			if ($dbRMCMS) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public function setHost($host){
@@ -127,7 +145,7 @@ class rbDatabase{
 	}
 	
 	/**
-	 * Retourne l'host de la base de données utilisée
+	 * Retourne l'host de la base de donnÃ©es utilisÃ©e
 	 * @return	string
 	 */
 	public function getHost(){
@@ -135,7 +153,7 @@ class rbDatabase{
 	}
 	
 	/**
-	 * Retourne le login de la base de données utilisée
+	 * Retourne le login de la base de donnÃ©es utilisÃ©e
 	 * @return	string
 	 */
 	public function getLogin(){
@@ -143,7 +161,7 @@ class rbDatabase{
 	}
 	
 	/**
-	 * Retourne le mot de passe de la base de données utilisée
+	 * Retourne le mot de passe de la base de donnÃ©es utilisÃ©e
 	 * @return	string
 	 */
 	public function getPassword(){
@@ -151,7 +169,7 @@ class rbDatabase{
 	}
 		
 	/**
-	 * Retourne le nom de la base de données utilisée
+	 * Retourne le nom de la base de donnÃ©es utilisÃ©e
 	 * @return	string
 	 */
 	public function getDBName(){
