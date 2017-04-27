@@ -3,7 +3,8 @@
 	include dirname(__FILE__).'/core/class/login.class.php';
 	
 	$install = new rbDatabase();
-	$install->installMainDatabase();
-	
+	if(!$install->isMainDatabaseInstalled()){
+		$install->installMainDatabase();
+	}
 	session_start();
 ?>
